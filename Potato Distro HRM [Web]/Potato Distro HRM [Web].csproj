@@ -96,15 +96,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin\AdminHomeForm.aspx" />
     <Content Include="admin\EditEmployee.aspx" />
     <Content Include="admin\AddEmployee.aspx" />
     <Content Include="admin\EmployeeList.aspx" />
+    <Content Include="admin\ManageLeaveForm.aspx" />
+    <Content Include="employee\ChangePasswordForm.aspx" />
+    <Content Include="employee\EmployeeHomeForm.aspx" />
+    <Content Include="employee\LeaveHistoryForm.aspx" />
+    <Content Include="LoginForm.aspx" />
     <Content Include="resources\css\all.min.css" />
     <Content Include="resources\css\bootstrap.min.css" />
     <Content Include="resources\css\jquery-ui.min.css" />
     <Content Include="resources\css\jquery-ui.structure.min.css" />
     <Content Include="resources\css\jquery-ui.theme.min.css" />
+    <Content Include="resources\images\changepwd_icon.png" />
+    <Content Include="resources\images\dept_icon.png" />
+    <Content Include="resources\images\employee_icon.png" />
+    <Content Include="resources\images\employee_icon_1.png" />
+    <Content Include="resources\images\home_icon.png" />
+    <Content Include="resources\images\jumbo_background.jpg" />
+    <Content Include="resources\images\jumbo_background_2.jpg" />
+    <Content Include="resources\images\jumbo_background_3.jpg" />
+    <Content Include="resources\images\leave_icon.png" />
+    <Content Include="resources\images\logout_icon.png" />
+    <Content Include="resources\images\payroll_icon.png" />
     <Content Include="resources\images\Potato Distro.jpg" />
+    <Content Include="resources\images\PotatoLogo.png" />
+    <Content Include="resources\images\PotatoLogo_small.png" />
+    <Content Include="resources\images\PotatoLogo_small_2.png" />
+    <Content Include="resources\images\sidebar_background_2.jpg" />
     <Content Include="resources\js\all.min.js" />
     <Content Include="resources\js\bootstrap.min.js" />
     <Content Include="resources\js\jquery-3.4.0.min.js" />
@@ -112,6 +133,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admin\AdminHomeForm.aspx.cs">
+      <DependentUpon>AdminHomeForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\AdminHomeForm.aspx.designer.cs">
+      <DependentUpon>AdminHomeForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="admin\EditEmployee.aspx.cs">
       <DependentUpon>EditEmployee.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -133,8 +161,44 @@
     <Compile Include="admin\EmployeeList.aspx.designer.cs">
       <DependentUpon>EmployeeList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="admin\ManageLeaveForm.aspx.cs">
+      <DependentUpon>ManageLeaveForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\ManageLeaveForm.aspx.designer.cs">
+      <DependentUpon>ManageLeaveForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="employee\ChangePasswordForm.aspx.cs">
+      <DependentUpon>ChangePasswordForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="employee\ChangePasswordForm.aspx.designer.cs">
+      <DependentUpon>ChangePasswordForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="employee\EmployeeHomeForm.aspx.cs">
+      <DependentUpon>EmployeeHomeForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="employee\EmployeeHomeForm.aspx.designer.cs">
+      <DependentUpon>EmployeeHomeForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="employee\LeaveHistoryForm.aspx.cs">
+      <DependentUpon>LeaveHistoryForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="employee\LeaveHistoryForm.aspx.designer.cs">
+      <DependentUpon>LeaveHistoryForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.aspx.cs">
+      <DependentUpon>LoginForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LoginForm.aspx.designer.cs">
+      <DependentUpon>LoginForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="model\DatabaseConnection.cs" />
     <Compile Include="model\Employee.cs" />
+    <Compile Include="model\Status.cs" />
     <Compile Include="template\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -143,10 +207,18 @@
       <DependentUpon>Admin.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="template\Employee.Master.cs">
+      <DependentUpon>Employee.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="template\Employee.Master.designer.cs">
+      <DependentUpon>Employee.Master</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="template\Admin.Master" />
     <None Include="packages.config" />
+    <Content Include="template\Employee.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

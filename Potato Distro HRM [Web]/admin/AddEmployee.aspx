@@ -11,7 +11,7 @@
         }
     </style>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div id="add-form">
         <hr /><div class="bold h2">Employee Personal Details</div><hr />
         <asp:Panel ID="empMessagePanel" runat="server" Visible="false">
