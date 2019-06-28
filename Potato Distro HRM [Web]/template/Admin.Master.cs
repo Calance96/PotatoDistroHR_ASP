@@ -25,6 +25,11 @@ namespace Potato_Distro_HRM__Web_ {
                     RemoveCurrentTabClass();
                     EmployeesBtn.CssClass += " currentTab";
                     break;
+                case "addEmployee":
+                    TitleLbl.Text = "Add Employee";
+                    RemoveCurrentTabClass();
+                    AddEmployeeBtn.CssClass += " currentTab";
+                    break;
                 case "dept":
                     TitleLbl.Text = "Manage Departments";
                     RemoveCurrentTabClass();
@@ -42,6 +47,7 @@ namespace Potato_Distro_HRM__Web_ {
         private void RemoveCurrentTabClass()
         {
             EmployeesBtn.CssClass.Replace("currentTab", "").Trim();
+            AddEmployeeBtn.CssClass.Replace("currentTab", "").Trim();
             DeptBtn.CssClass.Replace("currentTab", "").Trim();
             LeaveBtn.CssClass.Replace("currentTab", "").Trim();
             PayrollBtn.CssClass.Replace("currentTab", "").Trim();
@@ -69,6 +75,12 @@ namespace Potato_Distro_HRM__Web_ {
         {
             Session["Tab"] = "employee";
             Response.Redirect("~/admin/EmployeeList.aspx");
+        }
+
+        protected void AddEmployeeBtn_Click(object sender, EventArgs e)
+        {
+            Session["Tab"] = "addEmployee";
+            Response.Redirect("~/admin/AddEmployee.aspx");
         }
     }
 }

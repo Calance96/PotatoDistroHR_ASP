@@ -113,6 +113,7 @@
     <Content Include="resources\images\changepwd_icon.png" />
     <Content Include="resources\images\dept_icon.png" />
     <Content Include="resources\images\employee_icon.png" />
+    <Content Include="resources\images\employee_icon_1.png" />
     <Content Include="resources\images\home_icon.png" />
     <Content Include="resources\images\jumbo_background.jpg" />
     <Content Include="resources\images\jumbo_background_2.jpg" />

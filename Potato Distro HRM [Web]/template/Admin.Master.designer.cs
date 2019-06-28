@@ -94,6 +94,24 @@ namespace Potato_Distro_HRM__Web_ {
         protected global::System.Web.UI.WebControls.Image Image3;
         
         /// <summary>
+        /// AddEmployeeBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton AddEmployeeBtn;
+        
+        /// <summary>
+        /// Image7 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image Image7;
+        
+        /// <summary>
         /// DeptBtn control.
         /// </summary>
         /// <remarks>
