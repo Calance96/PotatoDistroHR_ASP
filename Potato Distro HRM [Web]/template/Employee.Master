@@ -1,11 +1,12 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.master.cs" Inherits="Potato_Distro_HRM__Web_.Admin" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Employee.master.cs" Inherits="Potato_Distro_HRM__Web_.EmployeeMaster" %>
 
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
-    <title>Potato Distro HRM</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
     <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../resources/css/jquery-ui.min.css" />
     <link rel="stylesheet" type="text/css" href="../resources/css/jquery-ui.structure.min.css" />
@@ -15,54 +16,11 @@
     <script type="text/javascript" src="../resources/js/bootstrap.min.js" ></script>
     <script type="text/javascript" src="../resources/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="../resources/js/all.min.js"></script>
+    <%--<link rel="stylesheet" type="text/css" href="../Content/bootstrap.min.css" />
+    <script type="text/javascript" src="../Scripts/jquery-3.0.0.min.js" ></script>
+    <script type="text/javascript" src="../Scripts/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="../Scripts/bootstrap.bundle.min.js" ></script>--%>
     <style>
-        /*html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
-        #topbar {
-            width: 100%;
-            height: auto;
-            background: #1F2833;
-            color: #66FCF1;
-            display: flex;
-            justify-content: flex-start;
-            padding: 10px;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            font-size: 1.2em;
-        }
-
-        #logoSection {
-            margin: 10px auto; 
-            text-align: center;
-            border: double 1px white;
-            padding: 5px;
-            width: 510px;
-        }
-
-        #content {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100%;
-        }
-
-        #footer {
-            width: 100%;
-            background: #1F2833;
-            color: #66FCF1;
-            height: auto;
-            padding: 10px;
-            text-align: right;
-        }
-
-        #form1 {
-            min-height: 100%;
-            margin: 0;
-        }*/
-
         .sideLogo {
             display:block;
             padding: 0 15px;
@@ -148,52 +106,50 @@
         ::-webkit-scrollbar-thumb:hover {
           background: #555; 
         }
-
     </style>
-    <asp:ContentPlaceHolder ID="head" runat="server">
-        
-    </asp:ContentPlaceHolder>
 </head>
-<body>
+<body style="margin:0; font-family:Roboto,Helvetica,Arial,sans-serif;">
+    
     <form id="form1" runat="server">
         <div style="position:relative;">
             <div style="position:relative;">
                 <div style="text-align:center; background-color:white; height:20vh;">
-                    <asp:Image ID="Image6" Height="100%" runat="server" ImageUrl="~/resources/images/PotatoLogo.png"/>
+                    <asp:Image ID="Image1" Height="100%" runat="server" ImageUrl="~/resources/images/PotatoLogo.png"/>
                 </div>
                 <div style="position:absolute; right:50px; bottom: 5px;">
-                    <asp:LinkButton ID="LinkButton1" runat="server" Style="text-decoration:none;" Text="Logout" ForeColor="#4D6D9A" Font-Size="Small" CausesValidation="False" OnClick="LogoutBtn_Click"/>
+                    <asp:LinkButton ID="LogoutBtn" runat="server" Style="text-decoration:none;" Text="Logout" ForeColor="#4D6D9A" Font-Size="Small" CausesValidation="False" OnClick="LogoutBtn_Click"/>
                 </div>
             </div>
+            <%--<nav id="topBar">
+                <div style="display:flex; justify-content:space-between; width:80%; margin:0 auto;">
+                    
+                    <div style="padding-top:5px;">
+                        <asp:LinkButton ID="LogoutBtn" runat="server" Style="text-decoration:none; color:aliceblue; font-family:Arial; font-size:12px;" Text="Logout" CausesValidation="False" OnClick="LogoutBtn_Click"/>
+                    </div>
+                </div>
+            </nav>--%>
             <div class="content" style="background-color:#f4f4f4;">
                 <nav id="sidebar-top" style="height:1px;"></nav>
                 <nav id="sidebar" class="border-right" style="display:inline-block; box-shadow:1px 0 5px rgba(0,0,0,0.1); vertical-align:top; position:sticky; top: 0; width:25vw; height:100vh;">
                     <div class="sidebar_background"></div>
                     <div style="position:absolute; right:0; border-radius:10px; height:400px; width:90%;">
                         <div id="minilogo" class="sideLogo">
-                            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/resources/images/PotatoLogo_small_2.png" Height="100%" Width="100%" CausesValidation="False" OnClick="HomeBtn_Click" />
+                            <asp:ImageButton ID="LogoBtn" runat="server" ImageUrl="~/resources/images/PotatoLogo_small_2.png" Height="100%" Width="100%" CausesValidation="False" OnClick="HomeBtn_Click" />
                         </div>
                         <div class="border-bottom" style="height:1px; margin:0 20px 0 10px;"></div>
                         <asp:LinkButton ID="HomeBtn" runat="server" CssClass="sideBtn" OnClick="HomeBtn_Click" CausesValidation="False">
-                            <asp:Image ID="Image1" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/home_icon.png" />
+                            <asp:Image ID="Image2" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/home_icon.png" />
                             Home
                         </asp:LinkButton>
-                        <asp:LinkButton ID="EmployeesBtn" runat="server" CssClass="sideBtn" CausesValidation="False" OnClick="EmployeesBtn_Click">
-                            <asp:Image ID="Image3" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/employee_icon.png" />
-                            Manage Employees
+                        <asp:LinkButton ID="LeaveBtn" runat="server" CssClass="sideBtn" OnClick="LeaveBtn_Click" CausesValidation="False">
+                            <asp:Image ID="Image3" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/leave_icon.png" />
+                            Apply for Leave
                         </asp:LinkButton>
-                        <asp:LinkButton ID="DeptBtn" runat="server" CssClass="sideBtn" CausesValidation="False">
-                            <asp:Image ID="Image5" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/dept_icon.png" />
-                            Manage Departments
+                        <asp:LinkButton ID="ChangePwdBtn" runat="server" CssClass="sideBtn" OnClick="ChangePwdBtn_Click" CausesValidation="False">
+                            <asp:Image ID="Image4" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/changepwd_icon.png" />
+                            Change Password
                         </asp:LinkButton>
-                        <asp:LinkButton ID="LeaveBtn" runat="server" CssClass="sideBtn" CausesValidation="False" OnClick="LeaveBtn_Click">
-                            <asp:Image ID="Image4" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/leave_icon.png" />
-                            Manage Leave Applications
-                        </asp:LinkButton>
-                        <asp:LinkButton ID="PayrollBtn" runat="server" CssClass="sideBtn" CausesValidation="False">
-                            <asp:Image ID="Image2" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/payroll_icon.png" />
-                            Manage Payroll
-                        </asp:LinkButton>                        
+                        
                     </div> 
                 </nav>
                 <div id="right" style="display: inline-block; vertical-align:top; position:relative; width:70vw; /*margin-left:25vw;*/">
@@ -209,40 +165,27 @@
                 </div>
             </div>
         </div>
-        <%--<div id="topbar">
-            <div style="margin-right: 10px">Potato Distro HRM</div>
-        </div>
-        <div id="logoSection">
-            <img src="../resources/images/Potato Distro.jpg" />
-        </div>
-        <div id="content">
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>--%>
+        
     </form>
-    <%--<div id="footer">
-        Copyright &copy; 2019 Potato Distro Co.
-    </div>--%>
+    <script>
+        var observer = new IntersectionObserver(function (entries) {
+            console.log(entries[0].intersectionRatio);
+            // no intersection with screen
+            if (entries[0].intersectionRatio < 1) {
+                document.getElementById("minilogo").style.width = "200px";
+                console.log("STUCK!!");
+            }
+            // fully intersects with screen
+            else if (entries[0].intersectionRatio === 1) {
+                document.getElementById("minilogo").style.width = "0";
+                console.log("UNSTUCK!!");
+            }
+            else {
+                console.log("NEITHER :(((");
+            }
+        }, { threshold: [0, 1] });
 
+        observer.observe(document.querySelector("#sidebar-top"));
+    </script>
 </body>
-<script>
-    var observer = new IntersectionObserver(function (entries) {
-        console.log(entries[0].intersectionRatio);
-        // no intersection with screen
-        if (entries[0].intersectionRatio < 1) {
-            document.getElementById("minilogo").style.width = "200px";
-            console.log("STUCK!!");
-        }
-        // fully intersects with screen
-        else if (entries[0].intersectionRatio === 1) {
-            document.getElementById("minilogo").style.width = "0";
-            console.log("UNSTUCK!!");
-        }
-        else {
-            console.log("NEITHER :(((");
-        }
-    }, { threshold: [0, 1] });
-
-    observer.observe(document.querySelector("#sidebar-top"));
-</script>
 </html>
