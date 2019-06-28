@@ -111,10 +111,10 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Actions">
                     <ItemTemplate>
-                        <asp:LinkButton ID="editBtn" runat="server" CssClass="btn btn-success btn-sm" CommandArgument='<%#Eval("id") %>' OnCommand="EditCustomer">
+                        <asp:LinkButton ID="editBtn" runat="server" CssClass="btn btn-success btn-sm" CommandArgument='<%#Eval("id") %>' OnCommand="EditEmployee">
                             <i class="fas fa-user-edit"></i>
                         </asp:LinkButton>
-                        <asp:LinkButton ID="deleteBtn" runat="server" CssClass="btn btn-danger btn-sm">
+                        <asp:LinkButton ID="deleteBtn" runat="server" CssClass="btn btn-danger btn-sm" CommandArgument='<%#Eval("id") %>' OnClientClick="return confirm('Are you sure you want to delete this employee?')" OnCommand="DeleteEmployee">
                             <i class="fas fa-user-slash"></i>
                         </asp:LinkButton>
                     </ItemTemplate>

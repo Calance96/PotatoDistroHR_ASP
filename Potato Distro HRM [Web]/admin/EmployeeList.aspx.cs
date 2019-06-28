@@ -14,6 +14,7 @@ namespace Potato_Distro_HRM__Web_.admin {
         private Dictionary<int, string> supervisors;
         private Dictionary<int, string> departments;
 
+        private const string DELETE_EMPLOYEE = "DELETE FROM employee WHERE id=:id";
         private const string QUERY_ALL_EMPLOYEE_QUERY = "SELECT * FROM emp_super_dept_view ORDER by id, dept";
         private const string QUERY_EMPLOYEE_BY_FNAME = "SELECT * FROM emp_super_dept_view WHERE fname ILIKE '%' || :fname || '%' ORDER BY id, dept";
         private const string QUERY_EMPLOYEE_BY_LNAME = "SELECT * FROM emp_super_dept_view WHERE lname ILIKE '%' || :lname || '%' ORDER BY id, dept";
@@ -131,8 +132,20 @@ namespace Potato_Distro_HRM__Web_.admin {
             }
         }
 
-        protected void EditCustomer(object sender, CommandEventArgs e) {
+        protected void EditEmployee(object sender, CommandEventArgs e) {
             Response.Redirect("~/admin/EditEmployee.aspx?id=" + e.CommandArgument);
+        }
+
+        protected void DeleteEmployee(object sender, CommandEventArgs e) {
+            
+            using (NpgsqlConnection conn = DatabaseConnection.GetConnection())
+            using (NpgsqlCommand cmd = new NpgsqlCommand(DELETE_EMPLOYEE, conn)) {
+                conn.Open();
+                cmd.Parameters.Add(new NpgsqlParameter("id", Convert.ToInt32(e.CommandArgument)));
+                cmd.ExecuteNonQuery();
+                GridViewBindAllEmployee();
+            }
+            
         }
 
         protected void employeeGridView_Sorting(object sender, GridViewSortEventArgs e) {

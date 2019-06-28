@@ -16,53 +16,6 @@
     <script type="text/javascript" src="../resources/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="../resources/js/all.min.js"></script>
     <style>
-        /*html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
-        #topbar {
-            width: 100%;
-            height: auto;
-            background: #1F2833;
-            color: #66FCF1;
-            display: flex;
-            justify-content: flex-start;
-            padding: 10px;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            font-size: 1.2em;
-        }
-
-        #logoSection {
-            margin: 10px auto; 
-            text-align: center;
-            border: double 1px white;
-            padding: 5px;
-            width: 510px;
-        }
-
-        #content {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100%;
-        }
-
-        #footer {
-            width: 100%;
-            background: #1F2833;
-            color: #66FCF1;
-            height: auto;
-            padding: 10px;
-            text-align: right;
-        }
-
-        #form1 {
-            min-height: 100%;
-            margin: 0;
-        }*/
-
         .sideLogo {
             display:block;
             padding: 0 15px;
@@ -208,26 +161,13 @@
                         </div>
                         <asp:ContentPlaceHolder ID="MainContent" runat="server">
                         </asp:ContentPlaceHolder>
-                        <%--<div style="height:2000px;"></div>--%>
+                       
                     </div>
                 </div>
             </div>
         </div>
-        <%--<div id="topbar">
-            <div style="margin-right: 10px">Potato Distro HRM</div>
-        </div>
-        <div id="logoSection">
-            <img src="../resources/images/Potato Distro.jpg" />
-        </div>
-        <div id="content">
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>--%>
     </form>
-    <%--<div id="footer">
-        Copyright &copy; 2019 Potato Distro Co.
-    </div>--%>
-
+   
 </body>
 <script>
     var observer = new IntersectionObserver(function (entries) {
