@@ -101,6 +101,7 @@
     <Content Include="admin\AddEmployee.aspx" />
     <Content Include="admin\EmployeeList.aspx" />
     <Content Include="admin\ManageLeaveForm.aspx" />
+    <Content Include="admin\ManagePayroll.aspx" />
     <Content Include="employee\ChangePasswordForm.aspx" />
     <Content Include="employee\EmployeeHomeForm.aspx" />
     <Content Include="employee\LeaveHistoryForm.aspx" />
@@ -167,6 +168,13 @@
     </Compile>
     <Compile Include="admin\ManageLeaveForm.aspx.designer.cs">
       <DependentUpon>ManageLeaveForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\ManagePayroll.aspx.cs">
+      <DependentUpon>ManagePayroll.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\ManagePayroll.aspx.designer.cs">
+      <DependentUpon>ManagePayroll.aspx</DependentUpon>
     </Compile>
     <Compile Include="employee\ChangePasswordForm.aspx.cs">
       <DependentUpon>ChangePasswordForm.aspx</DependentUpon>
