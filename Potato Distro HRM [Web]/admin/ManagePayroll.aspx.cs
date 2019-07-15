@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -17,20 +18,38 @@ namespace Potato_Distro_HRM__Web_.admin
         DataTable dataTable;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Page.IsPostBack)
+            {
+
+                GetNewQuery();
+            }
+            
+        }
+
+        private void GetNewQuery()
+        {
             NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString);
+
             NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(
-                "SELECT employee.id, (fname || ' ' || lname) as name, " +
-                "dept, salary, leave.start as leave_start, leave.days as leave_days " +
-                "FROM employee, leave " +
-                "WHERE employee.id = leave.empid and leave.status = 2 and " +
-                "((extract(MONTH FROM(leave.start)) < (extract(MONTH FROM(current_date))) AND " +
-                "EXTRACT(MONTH FROM (leave.start + leave.days * INTERVAL '1 day' )) > (extract(MONTH FROM(current_date)))) " +
-                "OR extract(MONTH FROM(leave.start)) = (extract(MONTH FROM(current_date))) OR " +
-                "EXTRACT(MONTH FROM(leave.start + leave.days * INTERVAL '1 day')) = (extract(MONTH FROM(current_date))))", conn);
+                "SELECT employee.id, (fname || ' ' || lname) as name, dept, salary, leaves.start as leave_start, leaves.days as leave_days " +
+                "FROM employee LEFT OUTER JOIN " +
+                "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
+                "ON employee.id = leaves.empid; ", conn);
+
+            //NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(
+            //    "SELECT employee.id, (fname || ' ' || lname) as name, " +
+            //    "dept, salary, leave.start as leave_start, leave.days as leave_days " +
+            //    "FROM employee LEFT OUTER JOIN leave ON employee.id = leave.empid " +
+            //    "WHERE employee.id = leave.empid and leave.status = 2 and " +
+            //    "((extract(MONTH FROM(leave.start)) < (extract(MONTH FROM(current_date))) AND " +
+            //    "EXTRACT(MONTH FROM (leave.start + leave.days * INTERVAL '1 day' )) > (extract(MONTH FROM(current_date)))) " +
+            //    "OR extract(MONTH FROM(leave.start)) = (extract(MONTH FROM(current_date))) OR " +
+            //    "EXTRACT(MONTH FROM(leave.start + leave.days * INTERVAL '1 day')) = (extract(MONTH FROM(current_date))))", conn);
+
+
             dataTable = new DataTable();
             adapter.Fill(dataTable);
             UpdateListView(currentMonth);
-            
         }
 
         private void UpdateListView(int currentMonth)
@@ -62,33 +81,38 @@ namespace Potato_Distro_HRM__Web_.admin
 
             foreach(DataRow row in dataTable.Rows)
             {
-                DateTime startDate = Convert.ToDateTime(row["leave_start"]);
-                int days = Convert.ToInt32(row["leave_days"]);
-                DateTime endDate = startDate.AddDays(days);
-                int startMonth = startDate.Month;
-                int endMonth = endDate.Month;
-
                 int countedLeaveDays = 0;
 
-                if (startMonth < currentMonth && endMonth > currentMonth)
+                if (row["leave_start"] != DBNull.Value)
                 {
-                    countedLeaveDays = DateTime.DaysInMonth(currentDate.Year, currentMonth);
-                }
-                else if (startMonth == currentMonth)
-                {
-                    if (endMonth > currentMonth)
+                    DateTime startDate = Convert.ToDateTime(row["leave_start"]);
+                    int days = Convert.ToInt32(row["leave_days"]);
+                    DateTime endDate = startDate.AddDays(days);
+                    int startMonth = startDate.Month;
+                    int endMonth = endDate.Month;
+
+                    if (startMonth < currentMonth && endMonth > currentMonth)
                     {
-                        countedLeaveDays = DateTime.DaysInMonth(currentDate.Year, currentMonth) - startDate.Day;
+                        countedLeaveDays = DateTime.DaysInMonth(currentDate.Year, currentMonth);
+                    }
+                    else if (startMonth == currentMonth)
+                    {
+                        if (endMonth > currentMonth)
+                        {
+                            countedLeaveDays = DateTime.DaysInMonth(currentDate.Year, currentMonth) - startDate.Day;
+                        }
+                        else if (endMonth == currentMonth)
+                        {
+                            countedLeaveDays = endDate.Day - startDate.Day;
+                        }
                     }
                     else if (endMonth == currentMonth)
                     {
-                        countedLeaveDays = endDate.Day - startDate.Day;
+                        countedLeaveDays = endDate.Day;
                     }
                 }
-                else if (endMonth == currentMonth)
-                {
-                    countedLeaveDays = endDate.Day;
-                }
+
+                
                 datarow = newDataTable.NewRow();
                 datarow.ItemArray = new object[] { row["id"], row["name"], row["dept"], row["salary"], row["leave_start"], row["leave_days"], countedLeaveDays };
                 newDataTable.Rows.Add(datarow);
@@ -142,7 +166,7 @@ namespace Potato_Distro_HRM__Web_.admin
                 int totalLeaveDays = Convert.ToInt32(rowView.total_leave_days);
                 int monthlySalary = Convert.ToInt32(rowView.salary);
                 Label salaryLbl = (Label)e.Item.FindControl("salary");
-                salaryLbl.Text = (monthlySalary - totalLeaveDays * (monthlySalary / DateTime.DaysInMonth(currentDate.Year, currentMonth))).ToString();
+                salaryLbl.Text = (Math.Round(monthlySalary - totalLeaveDays * (monthlySalary * 1.0/ DateTime.DaysInMonth(currentDate.Year, currentMonth)),2)).ToString();
             }
         }
 
@@ -167,6 +191,13 @@ namespace Potato_Distro_HRM__Web_.admin
             {
                 Response.Write("success");
             }
+        }
+
+        protected void monthBtn_Click(object sender, EventArgs e)
+        {
+            currentMonth = DateTime.ParseExact(Request["date"], "MMMM", CultureInfo.CurrentCulture).Month;
+            GetNewQuery();
+
         }
     }
 }
