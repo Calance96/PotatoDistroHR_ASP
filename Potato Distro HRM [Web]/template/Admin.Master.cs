@@ -82,5 +82,11 @@ namespace Potato_Distro_HRM__Web_ {
             Session["Tab"] = "addEmployee";
             Response.Redirect("~/admin/AddEmployee.aspx");
         }
+
+        protected void PayrollBtn_Click(object sender, EventArgs e)
+        {
+            Session["Tab"] = "payroll";
+            Response.Redirect("~/admin/ManagePayroll.aspx");
+        }
     }
 }

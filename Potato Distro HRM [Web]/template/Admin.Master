@@ -194,7 +194,7 @@
                             <asp:Image ID="Image4" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/leave_icon.png" />
                             Manage Leave Applications
                         </asp:LinkButton>
-                        <asp:LinkButton ID="PayrollBtn" runat="server" CssClass="sideBtn" CausesValidation="False">
+                        <asp:LinkButton ID="PayrollBtn" runat="server" CssClass="sideBtn" CausesValidation="False" OnClick="PayrollBtn_Click">
                             <asp:Image ID="Image2" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/payroll_icon.png" />
                             Manage Payroll
                         </asp:LinkButton>                        
