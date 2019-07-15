@@ -31,13 +31,22 @@ namespace Potato_Distro_HRM__Web_.admin {
         protected global::System.Web.UI.WebControls.Label empname;
         
         /// <summary>
-        /// Label1 control.
+        /// dept control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label dept;
+        
+        /// <summary>
+        /// payPeriod control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label payPeriod;
         
         /// <summary>
         /// monthlySalary control.
@@ -49,12 +58,21 @@ namespace Potato_Distro_HRM__Web_.admin {
         protected global::System.Web.UI.WebControls.Label monthlySalary;
         
         /// <summary>
-        /// leaveDays control.
+        /// leave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label leaveDays;
+        protected global::System.Web.UI.WebControls.Label leave;
+        
+        /// <summary>
+        /// netSalary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label netSalary;
     }
 }
