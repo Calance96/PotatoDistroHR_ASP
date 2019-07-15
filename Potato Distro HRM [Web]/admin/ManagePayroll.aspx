@@ -10,7 +10,7 @@
             var date_input = $('input[name="date"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
             var options = {
-                format: "MM",
+                format: "MM yyyy",
                 minViewMode: 1,
                 maxViewMode: 2,
                 autoclose: true,
@@ -42,18 +42,11 @@
                     <p>monthly salary: <asp:Label ID="Label1" runat="server" Text='<%# Eval("salary") %>'></asp:Label></p>
                     <p>counted leave days: <asp:Label ID="Label3" runat="server" Text='<%# Eval("total_leave_days") %>'></asp:Label></p>
                     <p>Salary: <asp:Label ID="salary" runat="server" Text=""></asp:Label></p>
-                    <asp:Button ID="detailsBtn" runat="server" Text="See Details" CommandArgument='<%# Eval("id") %>' OnClick="detailsBtn_Click"/>
+                    <asp:Button ID="detailsBtn" runat="server" Text="See Details" CommandArgument='<%# Eval("id") + "," + Eval("total_leave_days") %>' OnClick="detailsBtn_Click"/>
                     <asp:Button ID="printBtn" runat="server" Text="Print" CommandArgument='<%# Eval("id") %>' OnClick="printBtn_Click" />
 
                 </div>
             </ItemTemplate>
         </asp:ListView>
     </div>
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:potato_dbConnectionString %>" ProviderName="<%$ ConnectionStrings:potato_dbConnectionString.ProviderName %>" 
-        SelectCommand="SELECT employee.id, (fname || ' ' || lname) as name, 
-            dept, salary, SUM(days) as leave_days, start_date, end_date 
-            FROM employee, leave 
-            WHERE employee.id = leave.empid and leave.status = 2 and leave.start
-            GROUP BY employee.id;">
-    </asp:SqlDataSource>
 </asp:Content>

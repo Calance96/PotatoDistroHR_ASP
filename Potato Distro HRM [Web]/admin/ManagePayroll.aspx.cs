@@ -13,13 +13,16 @@ namespace Potato_Distro_HRM__Web_.admin
 {
     public partial class ManagePayroll : System.Web.UI.Page
     {
-        private DateTime currentDate = DateTime.Now;
-        private int currentMonth = DateTime.Now.Month;
+        //private DateTime currentDate = DateTime.Now;
+        //private int currentMonth = DateTime.Now.Month;
+        
         DataTable dataTable;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
+                ViewState["currentMonth"] = DateTime.Now.Month;
+                ViewState["currentYear"] = DateTime.Now.Year;
 
                 GetNewQuery();
             }
@@ -49,11 +52,13 @@ namespace Potato_Distro_HRM__Web_.admin
 
             dataTable = new DataTable();
             adapter.Fill(dataTable);
-            UpdateListView(currentMonth);
+            UpdateListView();
         }
 
-        private void UpdateListView(int currentMonth)
+        private void UpdateListView()
         {
+            int currentYear = (int)ViewState["currentYear"];
+            int currentMonth = (int)ViewState["currentMonth"];
             DataTable newDataTable = new DataTable();
 
             DataColumn column = new DataColumn("id", typeof(int));
@@ -93,13 +98,13 @@ namespace Potato_Distro_HRM__Web_.admin
 
                     if (startMonth < currentMonth && endMonth > currentMonth)
                     {
-                        countedLeaveDays = DateTime.DaysInMonth(currentDate.Year, currentMonth);
+                        countedLeaveDays = DateTime.DaysInMonth(currentYear, currentMonth);
                     }
                     else if (startMonth == currentMonth)
                     {
                         if (endMonth > currentMonth)
                         {
-                            countedLeaveDays = DateTime.DaysInMonth(currentDate.Year, currentMonth) - startDate.Day;
+                            countedLeaveDays = DateTime.DaysInMonth(currentYear, currentMonth) - startDate.Day;
                         }
                         else if (endMonth == currentMonth)
                         {
@@ -158,6 +163,8 @@ namespace Potato_Distro_HRM__Web_.admin
 
         protected void ListView1_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
+            int currentYear = (int)ViewState["currentYear"];
+            int currentMonth = (int)ViewState["currentMonth"];
             ListViewDataItem dataItem = (ListViewDataItem)e.Item;
 
             if (e.Item.ItemType == ListViewItemType.DataItem)
@@ -166,14 +173,35 @@ namespace Potato_Distro_HRM__Web_.admin
                 int totalLeaveDays = Convert.ToInt32(rowView.total_leave_days);
                 int monthlySalary = Convert.ToInt32(rowView.salary);
                 Label salaryLbl = (Label)e.Item.FindControl("salary");
-                salaryLbl.Text = (Math.Round(monthlySalary - totalLeaveDays * (monthlySalary * 1.0/ DateTime.DaysInMonth(currentDate.Year, currentMonth)),2)).ToString();
+                salaryLbl.Text = (Math.Round(monthlySalary - totalLeaveDays * (monthlySalary * 1.0/ DateTime.DaysInMonth(currentYear, currentMonth)),2)).ToString();
             }
         }
 
         protected void detailsBtn_Click(object sender, EventArgs e)
         {
+            int currentYear = (int)ViewState["currentYear"];
+            int currentMonth = (int)ViewState["currentMonth"];
             Button btn = (Button)sender;
-            Response.Redirect("SalarySummary.aspx?empid=" + btn.CommandArgument);
+            string[] args = btn.CommandArgument.ToString().Split(',');
+            EmpSalaryDetails details = new EmpSalaryDetails(Convert.ToInt32(args[0]), Convert.ToInt32(args[1]), currentMonth, currentYear);
+            Session["salarydetails"] = details;
+            Response.Redirect("SalarySummary.aspx");
+        }
+
+        public class EmpSalaryDetails
+        {
+            public int id { get; set; }
+            public int countedLeaveDays { get; set; }
+            public int month { get; set; }
+            public int year { get; set; }
+
+            public EmpSalaryDetails(int id, int countedLeaveDays, int month, int year)
+            {
+                this.id = id;
+                this.countedLeaveDays = countedLeaveDays;
+                this.month = month;
+                this.year = year;
+            }
         }
 
         protected void printBtn_Click(object sender, EventArgs e)
@@ -195,7 +223,8 @@ namespace Potato_Distro_HRM__Web_.admin
 
         protected void monthBtn_Click(object sender, EventArgs e)
         {
-            currentMonth = DateTime.ParseExact(Request["date"], "MMMM", CultureInfo.CurrentCulture).Month;
+            ViewState["currentMonth"] = DateTime.ParseExact(Request["date"], "MMMM yyyy", CultureInfo.CurrentCulture).Month;
+            ViewState["currentYear"] = DateTime.ParseExact(Request["date"], "MMMM yyyy", CultureInfo.CurrentCulture).Year;
             GetNewQuery();
 
         }
