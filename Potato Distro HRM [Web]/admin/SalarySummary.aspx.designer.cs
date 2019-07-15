@@ -13,6 +13,15 @@ namespace Potato_Distro_HRM__Web_.admin {
     public partial class SalarySummary {
         
         /// <summary>
+        /// payPeriod control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label payPeriod;
+        
+        /// <summary>
         /// empid control.
         /// </summary>
         /// <remarks>
@@ -20,15 +29,6 @@ namespace Potato_Distro_HRM__Web_.admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label empid;
-        
-        /// <summary>
-        /// empname control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label empname;
         
         /// <summary>
         /// dept control.
@@ -40,13 +40,13 @@ namespace Potato_Distro_HRM__Web_.admin {
         protected global::System.Web.UI.WebControls.Label dept;
         
         /// <summary>
-        /// payPeriod control.
+        /// empname control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label payPeriod;
+        protected global::System.Web.UI.WebControls.Label empname;
         
         /// <summary>
         /// monthlySalary control.
