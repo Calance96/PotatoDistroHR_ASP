@@ -16,6 +16,7 @@
     .empDetailsValueCol{
         width:30%;
     }
+
 </style>
 
 </asp:Content>
