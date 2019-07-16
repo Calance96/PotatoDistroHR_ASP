@@ -57,7 +57,7 @@
             </tr>
             <tr style="border-top: 1px solid black;">
                 <td><b>Net Salary</b></td>
-                <td>: RM<asp:Label ID="netSalary" runat="server" Text=""></asp:Label></td>
+                <td><b>: RM<asp:Label ID="netSalary" runat="server" Text=""></asp:Label></b></td>
             </tr>
 
         </table>
