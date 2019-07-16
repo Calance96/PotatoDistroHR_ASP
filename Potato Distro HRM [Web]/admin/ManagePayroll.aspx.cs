@@ -17,27 +17,44 @@ namespace Potato_Distro_HRM__Web_.admin
         //private int currentMonth = DateTime.Now.Month;
         
         DataTable dataTable;
+        NpgsqlCommand mainCmd = new NpgsqlCommand("SELECT employee.id, (fname || ' ' || lname) as name, department.name as dept, salary, leaves.start as leave_start, leaves.days as leave_days " +
+                    "FROM (employee LEFT OUTER JOIN department ON department.id = employee.dept) LEFT OUTER JOIN " +
+                    "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
+                    "ON employee.id = leaves.empid ");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
+                monthLbl.Text = "For the month of " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month) + " " + DateTime.Now.Year;
                 ViewState["currentMonth"] = DateTime.Now.Month;
                 ViewState["currentYear"] = DateTime.Now.Year;
 
-                GetNewQuery();
+                NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString);
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter("SELECT id, name FROM department", conn);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                DataRow datarow = dataTable.NewRow();
+                datarow.ItemArray = new object[] { 0, "Department" };
+                dataTable.Rows.InsertAt(datarow, 0);
+
+                DeptDdl.DataSource = dataTable;
+                DeptDdl.DataTextField = "name";
+                DeptDdl.DataValueField = "id";
+                DeptDdl.DataBind();
+
+                
+                
+                GetNewQuery(mainCmd);
             }
             
         }
 
-        private void GetNewQuery()
+        private void GetNewQuery(NpgsqlCommand cmd)
         {
             NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString);
-
-            NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(
-                "SELECT employee.id, (fname || ' ' || lname) as name, dept, salary, leaves.start as leave_start, leaves.days as leave_days " +
-                "FROM employee LEFT OUTER JOIN " +
-                "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
-                "ON employee.id = leaves.empid; ", conn);
+            cmd.Connection = conn;
+            NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd);
 
             //NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(
             //    "SELECT employee.id, (fname || ' ' || lname) as name, " +
@@ -67,7 +84,7 @@ namespace Potato_Distro_HRM__Web_.admin
             column = new DataColumn("name", typeof(string));
             newDataTable.Columns.Add(column);
 
-            column = new DataColumn("dept", typeof(int));
+            column = new DataColumn("dept", typeof(string));
             newDataTable.Columns.Add(column);
 
             column = new DataColumn("salary", typeof(double));
@@ -140,7 +157,7 @@ namespace Potato_Distro_HRM__Web_.admin
                 {
                     id = entry.Field<int>("id"),
                     name = entry.Field<string>("name"),
-                    dept = entry.Field<int>("dept"),
+                    dept = entry.Field<string>("dept"),
                     salary = entry.Field<double>("salary")
                 }).Distinct();
 
@@ -181,7 +198,7 @@ namespace Potato_Distro_HRM__Web_.admin
         {
             int currentYear = (int)ViewState["currentYear"];
             int currentMonth = (int)ViewState["currentMonth"];
-            Button btn = (Button)sender;
+            LinkButton btn = (LinkButton)sender;
             string[] args = btn.CommandArgument.ToString().Split(',');
             EmpSalaryDetails details = new EmpSalaryDetails(Convert.ToInt32(args[0]), Convert.ToInt32(args[1]), currentMonth, currentYear);
             Session["salarydetails"] = details;
@@ -223,10 +240,57 @@ namespace Potato_Distro_HRM__Web_.admin
 
         protected void monthBtn_Click(object sender, EventArgs e)
         {
+            monthLbl.Text = "For the month of " + Request["date"];
             ViewState["currentMonth"] = DateTime.ParseExact(Request["date"], "MMMM yyyy", CultureInfo.CurrentCulture).Month;
             ViewState["currentYear"] = DateTime.ParseExact(Request["date"], "MMMM yyyy", CultureInfo.CurrentCulture).Year;
-            GetNewQuery();
+            GetNewQuery(mainCmd);
 
+        }
+
+        protected void filterBtn_Click(object sender, EventArgs e)
+        {
+            NpgsqlCommand cmd;
+
+            int deptid = Convert.ToInt32(DeptDdl.SelectedValue);
+            string empname = NameTb.Text.Trim();
+            if (!string.IsNullOrEmpty(empname) && deptid != 0)
+            {
+                cmd = new NpgsqlCommand("SELECT employee.id, (fname || ' ' || lname) as name, department.name as dept, salary, leaves.start as leave_start, leaves.days as leave_days " +
+                    "FROM (employee LEFT OUTER JOIN department ON department.id = employee.dept) LEFT OUTER JOIN " +
+                    "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
+                    "ON employee.id = leaves.empid " +
+                    "WHERE (fname || ' ' || lname) LIKE ('%' || :name || '%') AND department.id=:dept");
+                cmd.Parameters.Add(new NpgsqlParameter("name", empname));
+                cmd.Parameters.Add(new NpgsqlParameter("dept", deptid));
+            }
+            else if (!string.IsNullOrEmpty(empname))
+            {
+                cmd = new NpgsqlCommand("SELECT employee.id, (fname || ' ' || lname) as name, department.name as dept, salary, leaves.start as leave_start, leaves.days as leave_days " +
+                    "FROM (employee LEFT OUTER JOIN department ON department.id = employee.dept) LEFT OUTER JOIN " +
+                    "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
+                    "ON employee.id = leaves.empid " +
+                    "WHERE (fname || ' ' || lname) LIKE ('%' || :name || '%')");
+                cmd.Parameters.Add(new NpgsqlParameter("name", empname));
+            }
+            else if (deptid != 0)
+            {
+                cmd = new NpgsqlCommand("SELECT employee.id, (fname || ' ' || lname) as name, department.name as dept, salary, leaves.start as leave_start, leaves.days as leave_days " +
+                    "FROM (employee LEFT OUTER JOIN department ON department.id = employee.dept) LEFT OUTER JOIN " +
+                    "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
+                    "ON employee.id = leaves.empid " +
+                    "WHERE department.id=:dept");
+                cmd.Parameters.Add(new NpgsqlParameter("dept", deptid));
+            }
+            else
+            {
+                return;
+            }            
+            GetNewQuery(cmd);
+        }
+
+        protected void clearFilterBtn_Click(object sender, EventArgs e)
+        {
+            GetNewQuery(mainCmd);
         }
     }
 }
