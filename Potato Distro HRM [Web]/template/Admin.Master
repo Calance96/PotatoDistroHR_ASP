@@ -62,9 +62,13 @@
 
         #sidebar {
             background:white;
-            /*background:url(../images/sidebar_background_2.jpg);*/
-            /*background-size:cover;
-            opacity:0.5;*/
+            display:inline-block; 
+            box-shadow:1px 0 5px rgba(0,0,0,0.1);
+            vertical-align:top; 
+            position:sticky; 
+            top: 0; 
+            width:25vw; 
+            height:100vh
         }
 
         .sideBtn:hover {
@@ -81,6 +85,11 @@
         #topBar {
             text-align:right; z-index:10; height:5vh; position:sticky; top:0; background-color:#4D6D9A;
             box-shadow:0 3px 5px rgba(0,0,0,0.1);
+        }
+
+        #title {
+            padding:15px 0; 
+            margin:10px 0;
         }
 
         ::-webkit-scrollbar {
@@ -102,6 +111,17 @@
           background: #555; 
         }
 
+        @media print{
+            #sidebar, #sidebar *, #sidebar-top, #title, nav, header, footer, #printBtn {
+                display: none;
+            }
+
+            #right, #right > * {
+                width:100vw;
+                padding:0;
+            }
+        }
+
     </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
         
@@ -110,17 +130,17 @@
 <body>
     <form id="form1" runat="server">
         <div style="position:relative;">
-            <div style="position:relative;">
+            <header style="position:relative;">
                 <div style="text-align:center; background-color:white; height:20vh;">
                     <asp:Image ID="Image6" Height="100%" runat="server" ImageUrl="~/resources/images/PotatoLogo.png"/>
                 </div>
                 <div style="position:absolute; right:50px; bottom: 5px;">
                     <asp:LinkButton ID="LinkButton1" runat="server" Style="text-decoration:none;" Text="Logout" ForeColor="#4D6D9A" Font-Size="Small" CausesValidation="False" OnClick="LogoutBtn_Click"/>
                 </div>
-            </div>
+            </header>
             <div class="content" style="background-color:#f4f4f4;">
                 <nav id="sidebar-top" style="height:1px;"></nav>
-                <nav id="sidebar" class="border-right" style="display:inline-block; box-shadow:1px 0 5px rgba(0,0,0,0.1); vertical-align:top; position:sticky; top: 0; width:25vw; height:100vh;">
+                <nav id="sidebar" class="border-right">
                     <div class="sidebar_background"></div>
                     <div style="position:absolute; right:0; border-radius:10px; height:400px; width:90%;">
                         <div id="minilogo" class="sideLogo">
@@ -147,7 +167,7 @@
                             <asp:Image ID="Image4" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/leave_icon.png" />
                             Manage Leave Applications
                         </asp:LinkButton>
-                        <asp:LinkButton ID="PayrollBtn" runat="server" CssClass="sideBtn" CausesValidation="False">
+                        <asp:LinkButton ID="PayrollBtn" runat="server" CssClass="sideBtn" CausesValidation="False" OnClick="PayrollBtn_Click">
                             <asp:Image ID="Image2" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/payroll_icon.png" />
                             Manage Payroll
                         </asp:LinkButton>                        
@@ -156,12 +176,11 @@
                 <div id="right" style="display: inline-block; vertical-align:top; position:relative; width:70vw; /*margin-left:25vw;*/">
                 
                     <div style="padding:10px 50px;">
-                        <div style="padding:15px 0; margin:10px 0;" class="border-bottom">
+                        <div id="title" class="border-bottom">
                             <asp:Label ID="TitleLbl" runat="server" Text="" Font-Size="X-Large"></asp:Label>
                         </div>
                         <asp:ContentPlaceHolder ID="MainContent" runat="server">
                         </asp:ContentPlaceHolder>
-                       
                     </div>
                 </div>
             </div>

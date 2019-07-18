@@ -2,6 +2,7 @@
 using Potato_Distro_HRM__Web_.model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -18,7 +19,7 @@ namespace Potato_Distro_HRM__Web_
 
         protected void SubmitBtn_Click(object sender, EventArgs e)
         {
-            NpgsqlConnection conn = DatabaseConnection.GetConnection();
+            NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString);
             conn.Open();
             NpgsqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = "UPDATE ACCOUNT " +

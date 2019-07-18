@@ -2,6 +2,7 @@
 using Potato_Distro_HRM__Web_.model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -40,7 +41,7 @@ namespace Potato_Distro_HRM__Web_.admin {
         }
 
         private void GridViewBindAllEmployee() {
-            using (NpgsqlConnection conn = DatabaseConnection.GetConnection())
+            using (NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString))
             using (NpgsqlCommand cmd = new NpgsqlCommand(QUERY_ALL_EMPLOYEE_QUERY, conn)) {
                 conn.Open();
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);
@@ -117,7 +118,7 @@ namespace Potato_Distro_HRM__Web_.admin {
                 }
 
                 if (valid) {
-                    using (NpgsqlConnection conn = DatabaseConnection.GetConnection()) {
+                    using (NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString)) {
                         conn.Open();
                         cmd.Connection = conn;
                         NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);

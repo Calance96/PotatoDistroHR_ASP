@@ -2,6 +2,7 @@
 using Potato_Distro_HRM__Web_.model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -47,7 +48,7 @@ namespace Potato_Distro_HRM__Web_ {
             if (!string.IsNullOrEmpty(empId)) {
                 string select_query = "SELECT * FROM employee WHERE id=" + empId;
 
-                using (NpgsqlConnection conn = DatabaseConnection.GetConnection())
+                using (NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString))
                 using (NpgsqlCommand cmd = new NpgsqlCommand(select_query, conn)) {
                     conn.Open();
                     NpgsqlDataReader dr = cmd.ExecuteReader();
@@ -122,7 +123,7 @@ namespace Potato_Distro_HRM__Web_ {
             string update_command = "Update employee SET fname=:fname, lname=:lname, bdate=:bdate, address=:address, sex=:sex, contact=:contact, super_id=:super_id, start_date=:start_date, end_date=:end_date, salary=:salary, dept=:dept WHERE id=:id";
 
             try {
-                using (NpgsqlConnection conn = DatabaseConnection.GetConnection())
+                using (NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString))
                 using (NpgsqlCommand command = new NpgsqlCommand(update_command, conn)) {
                     conn.Open();
                     command.Parameters.Add(new NpgsqlParameter("fname", employee.fname));

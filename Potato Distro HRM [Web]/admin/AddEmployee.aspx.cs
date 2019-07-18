@@ -2,6 +2,7 @@
 using Potato_Distro_HRM__Web_.model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -80,7 +81,7 @@ namespace Potato_Distro_HRM__Web_ {
             string insert_command = "INSERT INTO employee(fname, lname, bdate, address, sex, contact, super_id, start_date, salary, dept) VALUES(:fname, :lname, :bdate, :address, :sex, :contact, :super_id, :start_date, :salary, :dept)";
 
             try {
-                using (NpgsqlConnection conn = DatabaseConnection.GetConnection())
+                using (NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString))
                 using (NpgsqlCommand command = new NpgsqlCommand(insert_command, conn)) {
                     conn.Open();
                     command.Parameters.Add(new NpgsqlParameter("fname", employee.fname));
