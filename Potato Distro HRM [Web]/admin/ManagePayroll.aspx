@@ -74,12 +74,10 @@
                                     See Details
                                 </asp:LinkButton>
                                 <br />
-                                <asp:LinkButton ID="printBtn" runat="server" CssClass="optionBtn" CommandArgument='<%# Eval("id") %>' OnClientClick="displayMessage(printarea.innerHTML)" CausesValidation="False">
+                                <%--<asp:LinkButton ID="printBtn" runat="server" CssClass="optionBtn" CommandArgument='<%# Eval("id") %>' OnClientClick="displayMessage(printarea.innerHTML)" CausesValidation="False">
                                     <asp:Image ID="Image2" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/print_icon.png" />
                                     Print
-                                </asp:LinkButton>
-                                <%--<asp:Button ID="detailsBtn" runat="server" Text="See Details" CommandArgument='<%# Eval("id") + "," + Eval("total_leave_days") %>' OnClick="detailsBtn_Click"/>
-                                <asp:Button ID="printBtn" runat="server" Text="Print" CommandArgument='<%# Eval("id") %>' OnClick="printBtn_Click" />--%>
+                                </asp:LinkButton>--%>
                             </td>
                         </tr>
                     </table>
