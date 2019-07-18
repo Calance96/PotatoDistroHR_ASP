@@ -159,16 +159,12 @@
         }
 
         @media print{
-            #sidebar, #sidebar *, #sidebar-top, #title, nav, header, footer {
+            #sidebar, #sidebar *, #sidebar-top, #title, nav, header, footer, #printBtn {
                 display: none;
             }
 
             #right, #right > * {
-                width:100%;
-                position: fixed;
-                top:0;
-                left:0;
-                margin-top: 100px;
+                width:100vw;
                 padding:0;
             }
         }

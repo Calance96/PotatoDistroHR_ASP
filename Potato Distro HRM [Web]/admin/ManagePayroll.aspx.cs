@@ -1,5 +1,6 @@
 ﻿using Npgsql;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,9 +14,8 @@ namespace Potato_Distro_HRM__Web_.admin
 {
     public partial class ManagePayroll : System.Web.UI.Page
     {
-        //private DateTime currentDate = DateTime.Now;
-        //private int currentMonth = DateTime.Now.Month;
-        
+
+        Dictionary<int, int> idLeaveDays = new Dictionary<int, int>();
         DataTable dataTable;
         NpgsqlCommand mainCmd = new NpgsqlCommand("SELECT employee.id, (fname || ' ' || lname) as name, department.name as dept, salary, leaves.start as leave_start, leaves.days as leave_days " +
                     "FROM (employee LEFT OUTER JOIN department ON department.id = employee.dept) LEFT OUTER JOIN " +
@@ -55,17 +55,6 @@ namespace Potato_Distro_HRM__Web_.admin
             NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString);
             cmd.Connection = conn;
             NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd);
-
-            //NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(
-            //    "SELECT employee.id, (fname || ' ' || lname) as name, " +
-            //    "dept, salary, leave.start as leave_start, leave.days as leave_days " +
-            //    "FROM employee LEFT OUTER JOIN leave ON employee.id = leave.empid " +
-            //    "WHERE employee.id = leave.empid and leave.status = 2 and " +
-            //    "((extract(MONTH FROM(leave.start)) < (extract(MONTH FROM(current_date))) AND " +
-            //    "EXTRACT(MONTH FROM (leave.start + leave.days * INTERVAL '1 day' )) > (extract(MONTH FROM(current_date)))) " +
-            //    "OR extract(MONTH FROM(leave.start)) = (extract(MONTH FROM(current_date))) OR " +
-            //    "EXTRACT(MONTH FROM(leave.start + leave.days * INTERVAL '1 day')) = (extract(MONTH FROM(current_date))))", conn);
-
 
             dataTable = new DataTable();
             adapter.Fill(dataTable);
@@ -190,35 +179,41 @@ namespace Potato_Distro_HRM__Web_.admin
                 int totalLeaveDays = Convert.ToInt32(rowView.total_leave_days);
                 int monthlySalary = Convert.ToInt32(rowView.salary);
                 Label salaryLbl = (Label)e.Item.FindControl("salary");
-                salaryLbl.Text = (Math.Round(monthlySalary - totalLeaveDays * (monthlySalary * 1.0/ DateTime.DaysInMonth(currentYear, currentMonth)),2)).ToString();
+                salaryLbl.Text = (Math.Round(monthlySalary - totalLeaveDays * (monthlySalary * 1.0 / DateTime.DaysInMonth(currentYear, currentMonth)), 2)).ToString();
+
+                idLeaveDays.Add(Convert.ToInt32(rowView.id), totalLeaveDays);
             }
         }
 
         protected void detailsBtn_Click(object sender, EventArgs e)
         {
-            int currentYear = (int)ViewState["currentYear"];
-            int currentMonth = (int)ViewState["currentMonth"];
+            Session["context"] = new int[] { (int)ViewState["currentYear"], (int)ViewState["currentMonth"] };
             LinkButton btn = (LinkButton)sender;
             string[] args = btn.CommandArgument.ToString().Split(',');
-            EmpSalaryDetails details = new EmpSalaryDetails(Convert.ToInt32(args[0]), Convert.ToInt32(args[1]), currentMonth, currentYear);
-            Session["salarydetails"] = details;
+            Dictionary<int, int> one = new Dictionary<int, int>() { { Convert.ToInt32(args[0]), Convert.ToInt32(args[1]) } };
+
+            Session["idLeaveDays"] = one;
             Response.Redirect("SalarySummary.aspx");
         }
 
         public class EmpSalaryDetails
         {
             public int id { get; set; }
+
+            public int dept { get; set; }
             public int countedLeaveDays { get; set; }
             public int month { get; set; }
             public int year { get; set; }
 
-            public EmpSalaryDetails(int id, int countedLeaveDays, int month, int year)
+            public EmpSalaryDetails(int id, int dept, int countedLeaveDays, int month, int year)
             {
                 this.id = id;
+                this.dept = dept;
                 this.countedLeaveDays = countedLeaveDays;
                 this.month = month;
                 this.year = year;
             }
+
         }
 
         protected void printBtn_Click(object sender, EventArgs e)
@@ -262,6 +257,7 @@ namespace Potato_Distro_HRM__Web_.admin
                     "WHERE (fname || ' ' || lname) LIKE ('%' || :name || '%') AND department.id=:dept");
                 cmd.Parameters.Add(new NpgsqlParameter("name", empname));
                 cmd.Parameters.Add(new NpgsqlParameter("dept", deptid));
+
             }
             else if (!string.IsNullOrEmpty(empname))
             {
@@ -291,6 +287,22 @@ namespace Potato_Distro_HRM__Web_.admin
         protected void clearFilterBtn_Click(object sender, EventArgs e)
         {
             GetNewQuery(mainCmd);
+        }
+
+
+        protected void printAllBtn_Click(object sender, EventArgs e)
+        {
+            Session["context"] = new int[] { (int)ViewState["currentYear"], (int)ViewState["currentMonth"] };
+
+            Session["idLeaveDays"] = (Dictionary<int,int>)ViewState["idLeaveDays"];
+            Response.Redirect("SalarySummary.aspx");
+
+            //ClientScript.RegisterStartupScript(this.GetType(), "onclick", "<script language=javascript>window.open('SalarySummary.aspx','PrintMe','height=300px,width=300px,scrollbars=1');</script>");
+        }
+
+        protected void ListView1_DataBound(object sender, EventArgs e)
+        {
+            ViewState["idLeaveDays"] = idLeaveDays;
         }
     }
 }

@@ -24,9 +24,17 @@
             };
             date_input.datepicker(options);
         })
+
+        function displayMessage(printContent) {
+            var inf = printContent;
+            win = window.open("print.htm", 'popup', 'toolbar = no, status = no');
+            win.document.write(inf);
+            win.document.close(); // new line 
+        } 
     </script>
     <div id="gridview">
 <%--        <asp:Button ID="Button1" runat="server" Text="Button" Onclick="Button1_Click"/>--%>
+        <asp:Button ID="printAllBtn" runat="server" Text="Print all" OnClick="printAllBtn_Click"/>
         <div class="form-group">
             <!-- Date input -->
             <input class="form-control" style="width:200px; display:inline" id="date" name="date" placeholder="Choose Month" type="text" />
@@ -43,7 +51,7 @@
             <asp:Button ID="clearFilterBtn" runat="server" Text="Clear filter" CausesValidation="false" OnClick="clearFilterBtn_Click"/>
         </div>
         <div style="font-weight:bold; padding: 20px;"><asp:Label ID="monthLbl" runat="server" Text=""></asp:Label></div>
-        <asp:ListView ID="ListView1" runat="server" OnItemDataBound="ListView1_ItemDataBound">
+        <asp:ListView ID="ListView1" runat="server" OnItemDataBound="ListView1_ItemDataBound" OnDataBound="ListView1_DataBound" >
             <ItemTemplate>
                 <div style="padding:20px; background-color:white; width:60%; margin:5px; box-shadow:rgba(128, 128, 128, 0.5) 3px 3px 5px">
                     <table style="width:100%">
@@ -66,7 +74,7 @@
                                     See Details
                                 </asp:LinkButton>
                                 <br />
-                                <asp:LinkButton ID="printBtn" runat="server" CssClass="optionBtn" CommandArgument='<%# Eval("id") %>' OnClick="printBtn_Click" CausesValidation="False">
+                                <asp:LinkButton ID="printBtn" runat="server" CssClass="optionBtn" CommandArgument='<%# Eval("id") %>' OnClientClick="displayMessage(printarea.innerHTML)" CausesValidation="False">
                                     <asp:Image ID="Image2" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/print_icon.png" />
                                     Print
                                 </asp:LinkButton>

@@ -13,6 +13,15 @@ namespace Potato_Distro_HRM__Web_.admin {
     public partial class ManagePayroll {
         
         /// <summary>
+        /// printAllBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button printAllBtn;
+        
+        /// <summary>
         /// monthBtn control.
         /// </summary>
         /// <remarks>
