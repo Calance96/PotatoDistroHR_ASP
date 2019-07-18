@@ -19,7 +19,7 @@
     #printBtn {
         margin:10px auto;
     }
-    #pagebreak {
+    #gapafter {
         height:50px;
     }
     @media print {
@@ -27,7 +27,7 @@
             display:none;
         }
         #gapafter {
-            height:1110px;
+            height:1108px;
         }
 
     }

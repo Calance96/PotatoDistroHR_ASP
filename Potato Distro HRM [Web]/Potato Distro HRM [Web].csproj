@@ -102,7 +102,6 @@
     <Content Include="admin\EmployeeList.aspx" />
     <Content Include="admin\ManageLeaveForm.aspx" />
     <Content Include="admin\ManagePayroll.aspx" />
-    <Content Include="admin\PrintPreview.aspx" />
     <Content Include="admin\SalarySummary.aspx" />
     <Content Include="employee\ChangePasswordForm.aspx" />
     <Content Include="employee\EmployeeHomeForm.aspx" />
@@ -179,14 +178,6 @@
     </Compile>
     <Compile Include="admin\ManagePayroll.aspx.designer.cs">
       <DependentUpon>ManagePayroll.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="admin\PrintHelper.cs" />
-    <Compile Include="admin\PrintPreview.aspx.cs">
-      <DependentUpon>PrintPreview.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="admin\PrintPreview.aspx.designer.cs">
-      <DependentUpon>PrintPreview.aspx</DependentUpon>
     </Compile>
     <Compile Include="admin\SalarySummary.aspx.cs">
       <DependentUpon>SalarySummary.aspx</DependentUpon>
