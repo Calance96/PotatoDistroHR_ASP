@@ -139,7 +139,7 @@ namespace Potato_Distro_HRM__Web_.admin {
 
         protected void DeleteEmployee(object sender, CommandEventArgs e) {
             
-            using (NpgsqlConnection conn = DatabaseConnection.GetConnection())
+            using (NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString))
             using (NpgsqlCommand cmd = new NpgsqlCommand(DELETE_EMPLOYEE, conn)) {
                 conn.Open();
                 cmd.Parameters.Add(new NpgsqlParameter("id", Convert.ToInt32(e.CommandArgument)));
