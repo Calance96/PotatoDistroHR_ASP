@@ -216,22 +216,6 @@ namespace Potato_Distro_HRM__Web_.admin
 
         }
 
-        protected void printBtn_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void Button1_Click(object sender, EventArgs e)
-        {
-            NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString);
-            conn.Open();
-            NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM LEAVE;", conn);
-            int success = cmd.ExecuteNonQuery();
-            if (success > 0)
-            {
-                Response.Write("success");
-            }
-        }
 
         protected void monthBtn_Click(object sender, EventArgs e)
         {
@@ -279,6 +263,7 @@ namespace Potato_Distro_HRM__Web_.admin
             }
             else
             {
+                GetNewQuery(mainCmd);
                 return;
             }            
             GetNewQuery(cmd);
