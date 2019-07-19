@@ -12,6 +12,7 @@ namespace Potato_Distro_HRM__Web_ {
     public partial class AddEmployee : System.Web.UI.Page {
 
         private const string ALERT_ERROR_CLASS = "alert alert-danger alert-dismissible";
+        int insertionId = -1;
 
         protected void Page_Load(object sender, EventArgs e) {
             
@@ -24,7 +25,7 @@ namespace Potato_Distro_HRM__Web_ {
                 if (AreInputsValid()) {
                     bool added = InsertEmployeeToDatabase();
                     if (added) {
-                        empMessageLabel.Text = "Employee added successfully";
+                        empMessageLabel.Text = "Employee added successfully with ID " + insertionId;
                         empMessagePanel.CssClass = "alert alert-success alert-dismissible";
                         empMessagePanel.Visible = true;
                         ClearAllFields();
@@ -78,30 +79,35 @@ namespace Potato_Distro_HRM__Web_ {
 
         private bool InsertEmployeeToDatabase() {
             Employee employee = CreateNewEmployee();
-            string insert_command = "INSERT INTO employee(fname, lname, bdate, address, sex, contact, super_id, start_date, salary, dept) VALUES(:fname, :lname, :bdate, :address, :sex, :contact, :super_id, :start_date, :salary, :dept)";
+            string insert_command = "INSERT INTO employee(fname, lname, bdate, address, sex, contact, super_id, start_date, salary, dept) VALUES(:fname, :lname, :bdate, :address, :sex, :contact, :super_id, :start_date, :salary, :dept) RETURNING id";
+            string insert_account_command = "INSERT INTO account VALUES(:id, :password)";
 
             try {
                 using (NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString))
-                using (NpgsqlCommand command = new NpgsqlCommand(insert_command, conn)) {
+                using (NpgsqlCommand emp_command = new NpgsqlCommand(insert_command, conn))
+                using (NpgsqlCommand acc_command = new NpgsqlCommand(insert_account_command, conn)) {
                     conn.Open();
-                    command.Parameters.Add(new NpgsqlParameter("fname", employee.fname));
-                    command.Parameters.Add(new NpgsqlParameter("lname", employee.lname));
-                    command.Parameters.Add(new NpgsqlParameter("bdate", DateTime.Parse(employee.birthdate)));
-                    command.Parameters.Add(new NpgsqlParameter("address", employee.address));
-                    command.Parameters.Add(new NpgsqlParameter("sex", employee.gender));
-                    command.Parameters.Add(new NpgsqlParameter("contact", employee.contact));
-                    command.Parameters.Add(new NpgsqlParameter("start_date", DateTime.Parse(employee.startDate)));
-                    command.Parameters.Add(new NpgsqlParameter("salary", employee.salary));
-                    command.Parameters.Add(new NpgsqlParameter("dept", employee.department));
+                    emp_command.Parameters.Add(new NpgsqlParameter("fname", employee.fname));
+                    emp_command.Parameters.Add(new NpgsqlParameter("lname", employee.lname));
+                    emp_command.Parameters.Add(new NpgsqlParameter("bdate", DateTime.Parse(employee.birthdate)));
+                    emp_command.Parameters.Add(new NpgsqlParameter("address", employee.address));
+                    emp_command.Parameters.Add(new NpgsqlParameter("sex", employee.gender));
+                    emp_command.Parameters.Add(new NpgsqlParameter("contact", employee.contact));
+                    emp_command.Parameters.Add(new NpgsqlParameter("start_date", DateTime.Parse(employee.startDate)));
+                    emp_command.Parameters.Add(new NpgsqlParameter("salary", employee.salary));
+                    emp_command.Parameters.Add(new NpgsqlParameter("dept", employee.department));
 
                     if (string.IsNullOrEmpty(employee.superId)) {
-                        command.Parameters.Add(new NpgsqlParameter("super_id", DBNull.Value));
+                        emp_command.Parameters.Add(new NpgsqlParameter("super_id", DBNull.Value));
                     } else {
-                        command.Parameters.Add(new NpgsqlParameter("super_id", Convert.ToInt32(employee.superId)));
+                        emp_command.Parameters.Add(new NpgsqlParameter("super_id", Convert.ToInt32(employee.superId)));
                     }
 
-                    int updated = command.ExecuteNonQuery();
-                    return Convert.ToBoolean(updated);
+                    insertionId = Convert.ToInt32(emp_command.ExecuteScalar());
+                    acc_command.Parameters.Add(new NpgsqlParameter("id", insertionId));
+                    acc_command.Parameters.Add(new NpgsqlParameter("password", "123456"));
+                    int success = acc_command.ExecuteNonQuery();
+                    return Convert.ToBoolean(success);
                 }
             } catch (NpgsqlException ecx) {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "Employee Insertion Failure", "alert('" + ecx.Message +  "')", true);
