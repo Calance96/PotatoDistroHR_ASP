@@ -37,7 +37,8 @@ namespace Potato_Distro_HRM__Web_.admin
             cmd = new NpgsqlCommand(
                 "SELECT employee.id, (fname || ' ' || lname) AS name, department.name AS dept, salary " +
                 "FROM employee, department " +
-                "WHERE employee.id = ANY(:intlist) AND employee.dept = department.id;", conn);
+                "WHERE employee.id = ANY(:intlist) AND employee.dept = department.id " +
+                "ORDER BY employee.id;", conn);
                 cmd.Parameters.Add(new NpgsqlParameter("intlist",emplist));
 
             NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd);

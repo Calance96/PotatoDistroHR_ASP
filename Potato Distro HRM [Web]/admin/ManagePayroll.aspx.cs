@@ -20,7 +20,8 @@ namespace Potato_Distro_HRM__Web_.admin
         NpgsqlCommand mainCmd = new NpgsqlCommand("SELECT employee.id, (fname || ' ' || lname) as name, department.name as dept, salary, leaves.start as leave_start, leaves.days as leave_days " +
                     "FROM (employee LEFT OUTER JOIN department ON department.id = employee.dept) LEFT OUTER JOIN " +
                     "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
-                    "ON employee.id = leaves.empid ");
+                    "ON employee.id = leaves.empid " +
+                    "ORDER BY employee.id");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -216,22 +217,6 @@ namespace Potato_Distro_HRM__Web_.admin
 
         }
 
-        protected void printBtn_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void Button1_Click(object sender, EventArgs e)
-        {
-            NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString);
-            conn.Open();
-            NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM LEAVE;", conn);
-            int success = cmd.ExecuteNonQuery();
-            if (success > 0)
-            {
-                Response.Write("success");
-            }
-        }
 
         protected void monthBtn_Click(object sender, EventArgs e)
         {
@@ -254,7 +239,8 @@ namespace Potato_Distro_HRM__Web_.admin
                     "FROM (employee LEFT OUTER JOIN department ON department.id = employee.dept) LEFT OUTER JOIN " +
                     "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
                     "ON employee.id = leaves.empid " +
-                    "WHERE (fname || ' ' || lname) LIKE ('%' || :name || '%') AND department.id=:dept");
+                    "WHERE (fname || ' ' || lname) LIKE ('%' || :name || '%') AND department.id=:dept " +
+                    "ORDER BY employee.id");
                 cmd.Parameters.Add(new NpgsqlParameter("name", empname));
                 cmd.Parameters.Add(new NpgsqlParameter("dept", deptid));
 
@@ -265,7 +251,8 @@ namespace Potato_Distro_HRM__Web_.admin
                     "FROM (employee LEFT OUTER JOIN department ON department.id = employee.dept) LEFT OUTER JOIN " +
                     "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
                     "ON employee.id = leaves.empid " +
-                    "WHERE (fname || ' ' || lname) LIKE ('%' || :name || '%')");
+                    "WHERE (fname || ' ' || lname) LIKE ('%' || :name || '%') " +
+                    "ORDER BY employee.id");
                 cmd.Parameters.Add(new NpgsqlParameter("name", empname));
             }
             else if (deptid != 0)
@@ -274,11 +261,13 @@ namespace Potato_Distro_HRM__Web_.admin
                     "FROM (employee LEFT OUTER JOIN department ON department.id = employee.dept) LEFT OUTER JOIN " +
                     "( SELECT * FROM leave WHERE status = 2 ) AS leaves " +
                     "ON employee.id = leaves.empid " +
-                    "WHERE department.id=:dept");
+                    "WHERE department.id=:dept " +
+                    "ORDER BY employee.id");
                 cmd.Parameters.Add(new NpgsqlParameter("dept", deptid));
             }
             else
             {
+                GetNewQuery(mainCmd);
                 return;
             }            
             GetNewQuery(cmd);
