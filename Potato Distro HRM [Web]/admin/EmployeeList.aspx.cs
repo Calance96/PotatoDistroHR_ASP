@@ -16,6 +16,7 @@ namespace Potato_Distro_HRM__Web_.admin {
         private Dictionary<int, string> departments;
 
         private const string DELETE_EMPLOYEE = "DELETE FROM employee WHERE id=:id";
+        private const string DELETE_EMPLOYEE_ACC = "DELETE FROM account WHERE id=:id";
         private const string QUERY_ALL_EMPLOYEE_QUERY = "SELECT * FROM emp_super_dept_view ORDER by id, dept";
         private const string QUERY_EMPLOYEE_BY_FNAME = "SELECT * FROM emp_super_dept_view WHERE fname ILIKE '%' || :fname || '%' ORDER BY id, dept";
         private const string QUERY_EMPLOYEE_BY_LNAME = "SELECT * FROM emp_super_dept_view WHERE lname ILIKE '%' || :lname || '%' ORDER BY id, dept";
@@ -138,15 +139,22 @@ namespace Potato_Distro_HRM__Web_.admin {
         }
 
         protected void DeleteEmployee(object sender, CommandEventArgs e) {
-            
+            if (Convert.ToInt32(e.CommandArgument) == 3) {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Admin cannot be removed!')", true);
+                return;
+            }
+
+
             using (NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString))
-            using (NpgsqlCommand cmd = new NpgsqlCommand(DELETE_EMPLOYEE, conn)) {
+            using (NpgsqlCommand delete_emp = new NpgsqlCommand(DELETE_EMPLOYEE, conn))
+            using (NpgsqlCommand delete_account = new NpgsqlCommand(DELETE_EMPLOYEE_ACC, conn)) {
                 conn.Open();
-                cmd.Parameters.Add(new NpgsqlParameter("id", Convert.ToInt32(e.CommandArgument)));
-                cmd.ExecuteNonQuery();
+                delete_account.Parameters.Add(new NpgsqlParameter("id", Convert.ToInt32(e.CommandArgument)));
+                delete_account.ExecuteNonQuery();
+                delete_emp.Parameters.Add(new NpgsqlParameter("id", Convert.ToInt32(e.CommandArgument)));
+                delete_emp.ExecuteNonQuery(); 
                 GridViewBindAllEmployee();
             }
-            
         }
 
         protected void employeeGridView_Sorting(object sender, GridViewSortEventArgs e) {
