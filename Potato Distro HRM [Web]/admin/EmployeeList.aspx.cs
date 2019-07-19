@@ -139,7 +139,12 @@ namespace Potato_Distro_HRM__Web_.admin {
         }
 
         protected void DeleteEmployee(object sender, CommandEventArgs e) {
-            
+            if (Convert.ToInt32(e.CommandArgument) == 3) {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Admin cannot be removed!')", true);
+                return;
+            }
+
+
             using (NpgsqlConnection conn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings["potato_dbConnectionString"].ConnectionString))
             using (NpgsqlCommand delete_emp = new NpgsqlCommand(DELETE_EMPLOYEE, conn))
             using (NpgsqlCommand delete_account = new NpgsqlCommand(DELETE_EMPLOYEE_ACC, conn)) {
@@ -150,7 +155,6 @@ namespace Potato_Distro_HRM__Web_.admin {
                 delete_emp.ExecuteNonQuery(); 
                 GridViewBindAllEmployee();
             }
-            
         }
 
         protected void employeeGridView_Sorting(object sender, GridViewSortEventArgs e) {
