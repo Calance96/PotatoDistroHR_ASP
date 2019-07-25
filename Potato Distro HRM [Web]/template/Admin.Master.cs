@@ -30,10 +30,15 @@ namespace Potato_Distro_HRM__Web_ {
                     RemoveCurrentTabClass();
                     AddEmployeeBtn.CssClass += " currentTab";
                     break;
-                case "dept":
+                case "department":
                     TitleLbl.Text = "Manage Departments";
                     RemoveCurrentTabClass();
                     DeptBtn.CssClass += " currentTab";
+                    break;
+                case "createDepartment":
+                    TitleLbl.Text = "Create Department";
+                    RemoveCurrentTabClass();
+                    CreateDepartmentBtn.CssClass += " currentTab";
                     break;
                 case "payroll":
                     TitleLbl.Text = "Manage Payroll";
@@ -49,6 +54,7 @@ namespace Potato_Distro_HRM__Web_ {
             EmployeesBtn.CssClass.Replace("currentTab", "").Trim();
             AddEmployeeBtn.CssClass.Replace("currentTab", "").Trim();
             DeptBtn.CssClass.Replace("currentTab", "").Trim();
+            CreateDepartmentBtn.CssClass.Replace("currentTab", "").Trim();
             LeaveBtn.CssClass.Replace("currentTab", "").Trim();
             PayrollBtn.CssClass.Replace("currentTab", "").Trim();
         }
@@ -81,6 +87,18 @@ namespace Potato_Distro_HRM__Web_ {
         {
             Session["Tab"] = "addEmployee";
             Response.Redirect("~/admin/AddEmployee.aspx");
+        }
+
+        protected void DepartmentBtn_Click(object sender, EventArgs e)
+        {
+            Session["Tab"] = "department";
+            Response.Redirect("~/department/DepartmentList.aspx");
+        }
+
+        protected void CreateDepartmentBtn_Click(object sender, EventArgs e)
+        {
+            Session["Tab"] = "createDepartment";
+            Response.Redirect("~/department/CreateDepartment.aspx");
         }
 
         protected void PayrollBtn_Click(object sender, EventArgs e)

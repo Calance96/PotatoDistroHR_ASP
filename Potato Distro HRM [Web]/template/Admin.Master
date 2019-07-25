@@ -159,9 +159,13 @@
                             <asp:Image ID="Image7" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/employee_icon.png" />
                             Add Employee
                         </asp:LinkButton>
-                        <asp:LinkButton ID="DeptBtn" runat="server" CssClass="sideBtn" CausesValidation="False">
+                        <asp:LinkButton ID="DeptBtn" runat="server" CssClass="sideBtn" CausesValidation="False" OnClick="DepartmentBtn_Click">
                             <asp:Image ID="Image5" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/dept_icon.png" />
                             Manage Departments
+                        </asp:LinkButton>
+                        <asp:LinkButton ID="CreateDepartmentBtn" runat="server" CssClass="sideBtn" CausesValidation="False" OnClick="CreateDepartmentBtn_Click">
+                            <asp:Image ID="Image8" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/dept_icon_1.png" />
+                            Create Department
                         </asp:LinkButton>
                         <asp:LinkButton ID="LeaveBtn" runat="server" CssClass="sideBtn" CausesValidation="False" OnClick="LeaveBtn_Click">
                             <asp:Image ID="Image4" Height="20px" runat="server" Style="padding-right:5px;" ImageUrl="~/resources/images/leave_icon.png" />

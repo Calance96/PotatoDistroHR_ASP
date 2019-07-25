@@ -103,6 +103,11 @@
     <Content Include="admin\ManageLeaveForm.aspx" />
     <Content Include="admin\ManagePayroll.aspx" />
     <Content Include="admin\SalarySummary.aspx" />
+    <Content Include="department\CreateDepartment.aspx" />
+    <Content Include="department\AddDepartmentEmployee.aspx" />
+    <Content Include="department\DepartmentList.aspx" />
+    <Content Include="department\EditDepartment.aspx" />
+    <Content Include="department\ManageDepartmentEmployee.aspx" />
     <Content Include="employee\ChangePasswordForm.aspx" />
     <Content Include="employee\EmployeeHomeForm.aspx" />
     <Content Include="employee\LeaveHistoryForm.aspx" />
@@ -186,6 +191,41 @@
     <Compile Include="admin\SalarySummary.aspx.designer.cs">
       <DependentUpon>SalarySummary.aspx</DependentUpon>
     </Compile>
+    <Compile Include="department\CreateDepartment.aspx.cs">
+      <DependentUpon>CreateDepartment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="department\CreateDepartment.aspx.designer.cs">
+      <DependentUpon>CreateDepartment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="department\AddDepartmentEmployee.aspx.cs">
+      <DependentUpon>AddDepartmentEmployee.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="department\AddDepartmentEmployee.aspx.designer.cs">
+      <DependentUpon>AddDepartmentEmployee.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="department\DepartmentList.aspx.cs">
+      <DependentUpon>DepartmentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="department\DepartmentList.aspx.designer.cs">
+      <DependentUpon>DepartmentList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="department\EditDepartment.aspx.cs">
+      <DependentUpon>EditDepartment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="department\EditDepartment.aspx.designer.cs">
+      <DependentUpon>EditDepartment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="department\ManageDepartmentEmployee.aspx.cs">
+      <DependentUpon>ManageDepartmentEmployee.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="department\ManageDepartmentEmployee.aspx.designer.cs">
+      <DependentUpon>ManageDepartmentEmployee.aspx</DependentUpon>
+    </Compile>
     <Compile Include="employee\ChangePasswordForm.aspx.cs">
       <DependentUpon>ChangePasswordForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -215,6 +255,7 @@
       <DependentUpon>LoginForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="model\DatabaseConnection.cs" />
+    <Compile Include="model\Department.cs" />
     <Compile Include="model\Employee.cs" />
     <Compile Include="model\Status.cs" />
     <Compile Include="template\Admin.Master.cs">
