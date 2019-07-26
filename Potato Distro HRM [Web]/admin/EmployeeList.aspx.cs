@@ -77,7 +77,7 @@ namespace Potato_Distro_HRM__Web_.admin {
 
         protected void ClearSearchBtn_onClick(object sender, EventArgs e) {
             btnClearSearch.Enabled = false;
-            btnClearSearch.CssClass = "btn btn-dark";
+            btnClearSearch.CssClass = "btn btn-dark d-inline-block";
             searchBox.Text = "";
             zeroResultPanel.Visible = false;
         }
@@ -128,7 +128,7 @@ namespace Potato_Distro_HRM__Web_.admin {
                         employeeGridView.DataSource = ds.Tables[0].DefaultView;
                         employeeGridView.DataBind();
                         btnClearSearch.Enabled = true;
-                        btnClearSearch.CssClass = "btn btn-info";
+                        btnClearSearch.CssClass = "btn btn-info d-inline-block";
                     }
                 }
             }

@@ -35,17 +35,15 @@
                 <div class="col-md-2 my-auto">
                     <asp:Label runat="server" Text="Search Input" />
                 </div>
-                <div class="col-md-5 my-auto">
-                    <asp:TextBox ID="searchBox" runat="server" placeholder="Type search term here..." CssClass="form-control"/>
-                </div>
-                <div class="col-md-1 my-auto">
-                    <button runat="server" id="btnSearch" class="btn btn-primary" onserverclick="SearchBtn_OnClick">
-                        <i class="fas fa-search" style="color: white"></i>
-                    </button> 
-                    <asp:LinkButton ID="btnClearSearch" runat="server" CssClass="btn btn-dark" ToolTip="Clear Searches" Enabled="False" OnClick="ClearSearchBtn_onClick">
+                <asp:Panel CssClass="col-md-6 my-auto" runat="server" DefaultButton="btnSearch">
+                    <asp:TextBox ID="searchBox" runat="server" placeholder="Type search term here..." CssClass="form-control w-75 d-inline-block" AutoPostBack="false"/>
+                    <asp:LinkButton runat="server" ID="btnSearch" CssClass="btn btn-primary d-inline-block" OnClick="SearchBtn_OnClick">
+                        <i class="fas fa-search" style="color:white"></i>
+                    </asp:LinkButton> 
+                    <asp:LinkButton ID="btnClearSearch" runat="server" CssClass="btn btn-dark d-inline-block" ToolTip="Clear Searches" Enabled="False" OnClick="ClearSearchBtn_onClick">
                         <i class="far fa-trash-alt" style="color:white"></i>
                     </asp:LinkButton>
-                </div>
+                </asp:Panel>
                 <div class="col-md-1 my-auto">
                     <div class="text-truncate">Search by</div>
                 </div>

@@ -11,6 +11,11 @@ namespace Potato_Distro_HRM__Web_
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UserId"] == null) {
+                Response.Redirect("~/LoginForm.aspx");
+                return;
+            }
+
             switch (Session["Tab"])
             {
                 case "home":

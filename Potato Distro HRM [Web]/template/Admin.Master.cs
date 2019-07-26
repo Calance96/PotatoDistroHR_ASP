@@ -8,6 +8,11 @@ using System.Web.UI.WebControls;
 namespace Potato_Distro_HRM__Web_ {
     public partial class Admin : System.Web.UI.MasterPage {
         protected void Page_Load(object sender, EventArgs e) {
+            if (Session["UserId"] == null) {
+                Response.Redirect("~/LoginForm.aspx");
+                return;
+            }
+
             switch (Session["Tab"])
             {
                 case "home":
