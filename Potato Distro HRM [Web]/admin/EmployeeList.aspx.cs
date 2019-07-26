@@ -38,7 +38,9 @@ namespace Potato_Distro_HRM__Web_.admin {
             for (int i = 0; i < departmentDv.Count; ++i) {
                 departments.Add((int)departmentDv[i][0], (string)departmentDv[i][1]);
             }
-            GridViewBindAllEmployee();
+
+            if (!IsPostBack)
+                GridViewBindAllEmployee();
         }
 
         private void GridViewBindAllEmployee() {
@@ -134,8 +136,10 @@ namespace Potato_Distro_HRM__Web_.admin {
             }
         }
 
-        protected void EditEmployee(object sender, CommandEventArgs e) {
-            Response.Redirect("~/admin/EditEmployee.aspx?id=" + e.CommandArgument);
+        protected void EditEmployee(object sender, EventArgs e) {
+            string empId = (sender as LinkButton).CommandArgument;
+
+            Response.Redirect("~/admin/EditEmployee.aspx?id=" + empId);
         }
 
         protected void DeleteEmployee(object sender, CommandEventArgs e) {

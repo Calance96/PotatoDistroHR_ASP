@@ -125,7 +125,10 @@
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Required" CssClass="text-warning" ControlToValidate="PwdInput"></asp:RequiredFieldValidator>
                     </div>
                     <div class="form-group">
-                        <asp:DropDownList ID="ModeInput" runat="server" CssClass="form-control"></asp:DropDownList>
+                        <asp:DropDownList ID="ModeInput" runat="server" CssClass="form-control">
+                            <asp:ListItem Text="Employee" />
+                            <asp:ListItem Text="Admin" />
+                        </asp:DropDownList>
                     </div>
                     <div class="form-group">
                         <asp:Label ID="LoginLbl" runat="server" CssClass="form-check-label text-danger"></asp:Label>

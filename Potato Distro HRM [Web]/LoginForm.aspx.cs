@@ -14,9 +14,6 @@ namespace Potato_Distro_HRM__Web_
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ModeInput.Items.Add("Employee");
-            ModeInput.Items.Add("Admin");
-
         }
 
         protected void LoginBtn_Click(object sender, EventArgs e)
